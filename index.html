@@ -3,259 +3,287 @@
 <head>
     <meta charset="UTF-8">
     <title>Bowls Club Scoreboard V6</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <style>
     :root {
-    --bg-color: #0b3d0b;
-    --panel-bg: #145214;
-    --panel-border: #ffffff;
-    --text-color: #ffffff;
-    --score-bg: #ffffff;
-    --score-text: #000000;
-    --accent-color: #ffd700;
+        --bg-color: #0b3d0b;
+        --panel-bg: #145214;
+        --panel-border: #ffffff;
+        --text-color: #ffffff;
+        --score-bg: #ffffff;
+        --score-text: #000000;
+        --accent-color: #ffd700;
 
-    --home-win: #00c853;
-    --away-win: #ff5252;
-    --draw-colour: #ffd740;
-}
-
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-body {
-    font-family: Arial, sans-serif;
-    background: radial-gradient(circle at top, #145214, #021902);
-    color: var(--text-color);
-    height: 100vh;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-}
-
-/* HEADER */
-header {
-    padding: 6px 10px;
-    background: #022502;
-    border-bottom: 2px solid var(--panel-border);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-header h1 {
-    font-size: 1.1rem;
-    letter-spacing: 1px;
-}
-
-.controls {
-    display: flex;
-    gap: 6px;
-    align-items: center;
-    font-size: 0.85rem;
-}
-
-.controls select {
-    padding: 3px 5px;
-    border-radius: 4px;
-    border: 1px solid var(--panel-border);
-    background: #0b3d0b;
-    color: var(--text-color);
-}
-
-/* MATCH SETUP PANEL */
-#setupPanel {
-    background: #0b3d0b;
-    border-bottom: 2px solid var(--panel-border);
-    padding: 8px;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-}
-
-#setupPanel h2 {
-    font-size: 0.95rem;
-    color: var(--accent-color);
-    text-align: center;
-}
-
-.setup-row {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-}
-
-.setup-row label {
-    width: 90px;
-    font-size: 0.85rem;
-}
-
-.setup-row input {
-    flex: 1;
-    padding: 4px;
-    border-radius: 4px;
-    border: 1px solid var(--panel-border);
-    background: #e8ffe8;
-    color: #000;
-}
-
-#hideSetupBtn,
-#showSetupBtn,
-#resetScoresBtn {
-    padding: 5px 8px;
-    border-radius: 4px;
-    border: 1px solid var(--panel-border);
-    background: #145214;
-    color: var(--text-color);
-    cursor: pointer;
-    font-size: 0.85rem;
-}
-
-#showSetupBtn {
-    position: fixed;
-    top: 8px;
-    right: 8px;
-    display: none;
-}
-
-/* MAIN LAYOUT */
-main {
-    flex: 1;
-    overflow-y: auto;   /* FIXED: allows scrolling when setup panel is open */
-    padding: 6px;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
-#gamesContainer {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 6px;
-    flex: 1;
-}
-
-/* GAME BLOCKS */
-.game-block {
-    background: var(--panel-bg);
-    border: 2px solid var(--panel-border);
-    border-radius: 6px;
-    padding: 6px;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-.game-title {
-    font-weight: bold;
-    font-size: 0.9rem;
-    color: var(--accent-color);
-    text-align: center;
-    margin-bottom: 2px;
-}
-
-.label {
-    font-size: 0.75rem;
-}
-
-.text-input {
-    width: 100%;
-    padding: 3px;
-    border-radius: 4px;
-    border: 1px solid var(--panel-border);
-    background: #e8ffe8;
-    color: #000;
-    font-size: 0.8rem;
-}
-
-/* SCORE INPUTS */
-.score-input {
-    width: 50px;
-    padding: 3px;
-    font-size: 1rem;
-    font-weight: bold;
-    text-align: center;
-    border-radius: 4px;
-    border: 1px solid var(--panel-border);
-    background: var(--score-bg);
-    color: var(--score-text);
-}
-
-.team-row {
-    display: grid;
-    grid-template-columns: 1.2fr 0.8fr;
-    align-items: center;
-    gap: 4px;
-}
-
-.team-name {
-    font-weight: bold;
-    font-size: 0.85rem;
-}
-
-/* SECTION INDICATOR */
-.section-indicator {
-    text-align: center;
-    font-size: 0.75rem;
-    color: #dddddd;
-}
-
-/* TOTALS BAR */
-#totalsBar {
-    border-top: 1px solid var(--panel-border);
-    padding-top: 4px;
-    font-size: 0.9rem;
-    text-align: center;
-}
-
-/* INFO BUTTON */
-#infoButton {
-    position: fixed;
-    right: 10px;
-    bottom: 10px;
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    border: 2px solid var(--panel-border);
-    background: #0b3d0b;
-    color: var(--text-color);
-    font-weight: bold;
-    font-size: 1rem;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-#infoPanel {
-    position: fixed;
-    right: 10px;
-    bottom: 50px;
-    background: rgba(0,0,0,0.85);
-    color: #ffffff;
-    padding: 8px 10px;
-    border-radius: 6px;
-    font-size: 0.8rem;
-    max-width: 260px;
-    display: none;
-    border: 1px solid #ffffff;
-}
-
-/* MULTI-COLUMN LAYOUT FOR 1920×1080 */
-@media (min-width: 900px) {
-    #gamesContainer {
-        grid-template-columns: repeat(2, 1fr);
+        --home-win: #00c853;
+        --away-win: #ff5252;
+        --draw-colour: #ffd740;
     }
-}
 
-@media (min-width: 1400px) {
-    #gamesContainer {
-        grid-template-columns: repeat(3, 1fr);
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
     }
-}
+
+    html, body { height: 100%; }
+
+    body {
+        font-family: Arial, sans-serif;
+        background: radial-gradient(circle at top, #145214, #021902);
+        color: var(--text-color);
+
+        /* Mobile browsers can lie about 100vh; dvh is more accurate where supported */
+        min-height: 100vh;
+        min-height: 100dvh;
+
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+
+        /* iOS notch safe area */
+        padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+
+        -webkit-text-size-adjust: 100%;
+    }
+
+    /* HEADER */
+    header {
+        padding: 6px 10px;
+        background: #022502;
+        border-bottom: 2px solid var(--panel-border);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    header h1 {
+        font-size: 1.1rem;
+        letter-spacing: 1px;
+    }
+
+    .controls {
+        display: flex;
+        gap: 6px;
+        align-items: center;
+        font-size: 0.85rem;
+    }
+
+    .controls select {
+        padding: 3px 5px;
+        border-radius: 4px;
+        border: 1px solid var(--panel-border);
+        background: #0b3d0b;
+        color: var(--text-color);
+    }
+
+    /* MATCH SETUP PANEL */
+    #setupPanel {
+        background: #0b3d0b;
+        border-bottom: 2px solid var(--panel-border);
+        padding: 8px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    #setupPanel h2 {
+        font-size: 0.95rem;
+        color: var(--accent-color);
+        text-align: center;
+    }
+
+    .setup-row {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    .setup-row label {
+        width: 90px;
+        font-size: 0.85rem;
+    }
+
+    .setup-row input {
+        flex: 1;
+        padding: 4px;
+        border-radius: 4px;
+        border: 1px solid var(--panel-border);
+        background: #e8ffe8;
+        color: #000;
+    }
+
+    #hideSetupBtn,
+    #showSetupBtn,
+    #resetScoresBtn,
+    #fullscreenBtn {
+        padding: 5px 8px;
+        border-radius: 4px;
+        border: 1px solid var(--panel-border);
+        background: #145214;
+        color: var(--text-color);
+        cursor: pointer;
+        font-size: 0.85rem;
+        touch-action: manipulation;
+    }
+
+    #fullscreenBtn[disabled] {
+        opacity: 0.65;
+        cursor: not-allowed;
+    }
+
+    #showSetupBtn {
+        position: fixed;
+        top: 8px;
+        right: 8px;
+        display: none;
+        z-index: 1000;
+    }
+
+    /* MAIN LAYOUT */
+    main {
+        flex: 1;
+        overflow-y: auto;
+        padding: 6px;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    #gamesContainer {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 6px;
+        flex: 1;
+    }
+
+    /* GAME BLOCKS */
+    .game-block {
+        background: var(--panel-bg);
+        border: 2px solid var(--panel-border);
+        border-radius: 6px;
+        padding: 6px;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .game-title {
+        font-weight: bold;
+        font-size: 0.9rem;
+        color: var(--accent-color);
+        text-align: center;
+        margin-bottom: 2px;
+    }
+
+    .label {
+        font-size: 0.75rem;
+    }
+
+    .text-input {
+        width: 100%;
+        padding: 3px;
+        border-radius: 4px;
+        border: 1px solid var(--panel-border);
+        background: #e8ffe8;
+        color: #000;
+        font-size: 0.8rem;
+    }
+
+    /* SCORE INPUTS */
+    .score-input {
+        width: 50px;
+        padding: 3px;
+        font-size: 1rem;
+        font-weight: bold;
+        text-align: center;
+        border-radius: 4px;
+        border: 1px solid var(--panel-border);
+        background: var(--score-bg);
+        color: var(--score-text);
+    }
+
+    .team-row {
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        align-items: center;
+        gap: 4px;
+    }
+
+    .team-name {
+        font-weight: bold;
+        font-size: 0.85rem;
+    }
+
+    /* SECTION INDICATOR */
+    .section-indicator {
+        text-align: center;
+        font-size: 0.75rem;
+        color: #dddddd;
+    }
+
+    /* TOTALS BAR */
+    #totalsBar {
+        border-top: 1px solid var(--panel-border);
+        padding-top: 4px;
+        font-size: 0.9rem;
+        text-align: center;
+    }
+
+    /* INFO BUTTON */
+    #infoButton {
+        position: fixed;
+        right: 10px;
+        bottom: 10px;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        border: 2px solid var(--panel-border);
+        background: #0b3d0b;
+        color: var(--text-color);
+        font-weight: bold;
+        font-size: 1rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+    }
+
+    #infoPanel {
+        position: fixed;
+        right: 10px;
+        bottom: 50px;
+        background: rgba(0,0,0,0.85);
+        color: #ffffff;
+        padding: 8px 10px;
+        border-radius: 6px;
+        font-size: 0.8rem;
+        max-width: 260px;
+        display: none;
+        border: 1px solid #ffffff;
+        z-index: 1000;
+    }
+
+    /* MULTI-COLUMN LAYOUT FOR 1920×1080 */
+    @media (min-width: 900px) {
+        #gamesContainer {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (min-width: 1400px) {
+        #gamesContainer {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+
+    /* Prevent iOS zoom on focus */
+    @media (max-width: 768px) {
+        input, select, textarea, button { font-size: 16px; }
+        #hideSetupBtn, #resetScoresBtn, #fullscreenBtn { padding: 10px 12px; }
+        header h1 { font-size: 1rem; }
+    }
 </style>
 </head>
 <body>
@@ -267,13 +295,12 @@ main {
         <select id="matchType">
             <option value="6">6 Games</option>
             <option value="8">8 Games</option>
-            <option value="12">12 Games</option>
+            <option value="10" selected>10 Games</option>
         </select>
     </div>
 </header>
 
-<!-- MATCH SETUP PANEL (Visible by default) -->
-<div id="setupPanel">
+<!-- MATCH SETUP PANEL (Visible by default) --> <div id="setupPanel">
     <h2>MATCH SETUP</h2>
 
     <div class="setup-row">
@@ -289,6 +316,7 @@ main {
     <div class="setup-row">
         <button id="hideSetupBtn">Hide Setup</button>
         <button id="resetScoresBtn">Reset All Scores</button>
+        <button id="fullscreenBtn" type="button" aria-label="Toggle full screen">Full Screen</button>
     </div>
 </div>
 
@@ -296,9 +324,8 @@ main {
 
 <main>
     <div id="gamesContainer"></div>
-    <div id="totalsBar">TOTALS — Home: 0 &nbsp;&nbsp; Away: 0</div>
-    <div class="section-indicator" id="sectionIndicator"></div>
-</main>
+    <div id="totalsBar">TOTALS | Home: 0 &nbsp;&nbsp; Away: 0</div>
+    <div class="section-indicator" id="sectionIndicator"></div> </main>
 
 <button id="infoButton">i</button>
 <div id="infoPanel">
@@ -306,8 +333,8 @@ main {
     - Set team names in MATCH SETUP.<br>
     - Players vary per game.<br>
     - Portrait: all games.<br>
-    - Landscape: rotates when needed.<br>
-</div>
+    - Landscape: rotates when needed.<br> </div>
+
 <script>
 // ===============================
 // GLOBALS
@@ -325,12 +352,58 @@ const awayTeamInput = document.getElementById("awayTeamInput");
 const hideSetupBtn = document.getElementById("hideSetupBtn");
 const showSetupBtn = document.getElementById("showSetupBtn");
 const resetScoresBtn = document.getElementById("resetScoresBtn");
+const fullscreenBtn = document.getElementById("fullscreenBtn");
 
 const setupPanel = document.getElementById("setupPanel");
 
 const infoButton = document.getElementById("infoButton");
 const infoPanel = document.getElementById("infoPanel");
 
+// ===============================
+// FULLSCREEN (cross-browser)
+// ===============================
+function isIOSLikeSafari() {
+    // iOS Safari does not support fullscreen for standard web pages reliably.
+    // Chrome/Edge on iOS still uses WebKit, so treat iOS as unsupported.
+    return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream; }
+
+function fullscreenEnabled() {
+    return !!(document.fullscreenEnabled || document.webkitFullscreenEnabled || document.msFullscreenEnabled); }
+
+function isFullscreen() {
+    return !!(document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement); }
+
+function requestFullscreen(el) {
+    if (el.requestFullscreen) return el.requestFullscreen();
+    if (el.webkitRequestFullscreen) return el.webkitRequestFullscreen();
+    if (el.msRequestFullscreen) return el.msRequestFullscreen(); }
+
+function exitFullscreen() {
+    if (document.exitFullscreen) return document.exitFullscreen();
+    if (document.webkitExitFullscreen) return document.webkitExitFullscreen();
+    if (document.msExitFullscreen) return document.msExitFullscreen(); }
+
+function updateFullscreenButton() {
+    if (!fullscreenBtn) return;
+
+    if (isIOSLikeSafari() || !fullscreenEnabled()) {
+        fullscreenBtn.textContent = "Full Screen (N/A)";
+        fullscreenBtn.disabled = true;
+        return;
+    }
+
+    fullscreenBtn.disabled = false;
+    fullscreenBtn.textContent = isFullscreen() ? "Exit Full Screen" : "Full Screen"; }
+
+function toggleFullscreen() {
+    if (isIOSLikeSafari() || !fullscreenEnabled()) return;
+
+    if (isFullscreen()) {
+        exitFullscreen();
+    } else {
+        requestFullscreen(document.documentElement);
+    }
+}
 
 // ===============================
 // CREATE GAME DATA
@@ -348,7 +421,6 @@ function createGameData(total) {
     }
 }
 
-
 // ===============================
 // RENDER ALL GAMES
 // ===============================
@@ -363,7 +435,7 @@ function renderGames() {
             <div class="game-title">Game ${g.rink}</div>
 
             <div class="team-row">
-                <input class="text-input" 
+                <input class="text-input"
                        placeholder="Home players"
                        value="${g.homePlayers}"
                        data-index="${index}"
@@ -375,7 +447,7 @@ function renderGames() {
             </div>
 
             <div class="team-row">
-                <input class="text-input" 
+                <input class="text-input"
                        placeholder="Away players"
                        value="${g.awayPlayers}"
                        data-index="${index}"
@@ -393,7 +465,6 @@ function renderGames() {
     attachInputListeners();
 }
 
-
 // ===============================
 // ATTACH INPUT LISTENERS
 // ===============================
@@ -402,18 +473,16 @@ function attachInputListeners() {
 
     inputs.forEach(input => {
         input.addEventListener("input", (e) => {
-    const idx = parseInt(e.target.dataset.index, 10);
-    const field = e.target.dataset.field;
-    allGames[idx][field] = e.target.value;
+            const idx = parseInt(e.target.dataset.index, 10);
+            const field = e.target.dataset.field;
+            allGames[idx][field] = e.target.value;
 
-    // Only scores should trigger a full update
-    if (field === "homeScore" || field === "awayScore") {
-        updateTotals();
-    }
-});
+            if (field === "homeScore" || field === "awayScore") {
+                updateTotals();
+            }
+        });
     });
 }
-
 
 // ===============================
 // UPDATE TOTALS
@@ -430,9 +499,7 @@ function updateTotals() {
         if (!isNaN(a)) awayTotal += a;
     });
 
-    totalsBar.innerHTML = `TOTALS — ${homeTeamInput.value || "Home"}: ${homeTotal} &nbsp;&nbsp; ${awayTeamInput.value || "Away"}: ${awayTotal}`;
-}
-
+    totalsBar.innerHTML = `TOTALS | ${homeTeamInput.value || "Home"}: ${homeTotal} &nbsp;&nbsp; ${awayTeamInput.value || "Away"}: ${awayTotal}`; }
 
 // ===============================
 // UPDATE LAYOUT (ROTATION + RENDER)
@@ -445,12 +512,13 @@ function updateLayout() {
     const height = window.innerHeight;
 
     if (width > height) {
-        sectionIndicator.textContent = "Landscape Mode — Auto Rotation Active";
+        sectionIndicator.textContent = "Landscape Mode | Auto Rotation Active";
     } else {
-        sectionIndicator.textContent = "Portrait Mode — All Games Visible";
+        sectionIndicator.textContent = "Portrait Mode | All Games Visible";
     }
-}
 
+    updateFullscreenButton();
+}
 
 // ===============================
 // EVENT LISTENERS
@@ -483,19 +551,22 @@ resetScoresBtn.addEventListener("click", () => {
     updateLayout();
 });
 
-homeTeamInput.addEventListener("input", updateTotals);
-awayTeamInput.addEventListener("input", updateTotals);
+homeTeamInput.addEventListener("input", updateTotals); awayTeamInput.addEventListener("input", updateTotals);
+
+if (fullscreenBtn) {
+    fullscreenBtn.addEventListener("click", toggleFullscreen);
+    document.addEventListener("fullscreenchange", updateFullscreenButton);
+    document.addEventListener("webkitfullscreenchange", updateFullscreenButton);
+    document.addEventListener("MSFullscreenChange", updateFullscreenButton); }
 
 infoButton.addEventListener("click", () => {
-    infoPanel.style.display = infoPanel.style.display === "block" ? "none" : "block";
-});
+    infoPanel.style.display = infoPanel.style.display === "block" ? "none" : "block"; });
 
 document.addEventListener("click", (e) => {
     if (!infoPanel.contains(e.target) && e.target !== infoButton) {
         infoPanel.style.display = "none";
     }
 });
-
 
 // ===============================
 // INITIALISE
@@ -504,6 +575,7 @@ function init() {
     const total = parseInt(matchTypeSelect.value, 10);
     createGameData(total);
     updateLayout();
+    updateFullscreenButton();
 }
 
 init();
